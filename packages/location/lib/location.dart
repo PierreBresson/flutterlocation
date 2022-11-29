@@ -1,6 +1,8 @@
 // Ignored since there is a bug in the coverage report tool
 // https://github.com/dart-lang/coverage/issues/339
 // coverage:ignore-file
+import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:location_platform_interface/location_platform_interface.dart';
@@ -29,23 +31,35 @@ class Location implements LocationPlatform {
     int? interval = 1000,
     double? distanceFilter = 0,
   }) {
-    return LocationPlatform.instance.changeSettings(
-      accuracy: accuracy,
-      interval: interval,
-      distanceFilter: distanceFilter,
-    );
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.changeSettings(
+        accuracy: accuracy,
+        interval: interval,
+        distanceFilter: distanceFilter,
+      );
+    } else {
+      return Future.value(false);
+    }
   }
 
   /// Checks if service is enabled in the background mode.
   @override
   Future<bool> isBackgroundModeEnabled() {
-    return LocationPlatform.instance.isBackgroundModeEnabled();
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.isBackgroundModeEnabled();
+    } else {
+      return Future.value(false);
+    }
   }
 
   /// Enables or disables service in the background mode.
   @override
   Future<bool> enableBackgroundMode({bool? enable = true}) {
-    return LocationPlatform.instance.enableBackgroundMode(enable: enable);
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.enableBackgroundMode(enable: enable);
+    } else {
+      return Future.value(false);
+    }
   }
 
   /// Gets the current location of the user.
@@ -54,7 +68,11 @@ class Location implements LocationPlatform {
   /// Returns a [LocationData] object.
   @override
   Future<LocationData> getLocation() async {
-    return LocationPlatform.instance.getLocation();
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.getLocation();
+    } else {
+      return Future.value(LocationData.fromMap({}));
+    }
   }
 
   /// Checks if the app has permission to access location.
@@ -64,7 +82,11 @@ class Location implements LocationPlatform {
   /// Returns a [PermissionStatus] object.
   @override
   Future<PermissionStatus> hasPermission() {
-    return LocationPlatform.instance.hasPermission();
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.hasPermission();
+    } else {
+      return Future.value(PermissionStatus.denied);
+    }
   }
 
   /// Requests permission to access location.
@@ -74,19 +96,31 @@ class Location implements LocationPlatform {
   /// Returns a [PermissionStatus] object.
   @override
   Future<PermissionStatus> requestPermission() {
-    return LocationPlatform.instance.requestPermission();
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.requestPermission();
+    } else {
+      return Future.value(PermissionStatus.denied);
+    }
   }
 
   /// Checks if the location service is enabled.
   @override
   Future<bool> serviceEnabled() {
-    return LocationPlatform.instance.serviceEnabled();
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.serviceEnabled();
+    } else {
+      return Future.value(false);
+    }
   }
 
   /// Request the activation of the location service.
   @override
   Future<bool> requestService() {
-    return LocationPlatform.instance.requestService();
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.requestService();
+    } else {
+      return Future.value(false);
+    }
   }
 
   /// Returns a stream of [LocationData] objects.
@@ -96,7 +130,11 @@ class Location implements LocationPlatform {
   /// Throws an error if the app has no permission to access location.
   @override
   Stream<LocationData> get onLocationChanged {
-    return LocationPlatform.instance.onLocationChanged;
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.onLocationChanged;
+    } else {
+      return StreamController<LocationData>().stream;
+    }
   }
 
   /// Change options of sticky background notification on Android.
@@ -132,14 +170,18 @@ class Location implements LocationPlatform {
     Color? color,
     bool? onTapBringToFront,
   }) {
-    return LocationPlatform.instance.changeNotificationOptions(
-      channelName: channelName,
-      title: title,
-      iconName: iconName,
-      subtitle: subtitle,
-      description: description,
-      color: color,
-      onTapBringToFront: onTapBringToFront,
-    );
+    if (Platform.isAndroid) {
+      return LocationPlatform.instance.changeNotificationOptions(
+        channelName: channelName,
+        title: title,
+        iconName: iconName,
+        subtitle: subtitle,
+        description: description,
+        color: color,
+        onTapBringToFront: onTapBringToFront,
+      );
+    } else {
+      return Future.value(null);
+    }
   }
 }
