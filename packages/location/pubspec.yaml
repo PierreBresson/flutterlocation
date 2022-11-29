@@ -13,12 +13,6 @@ flutter:
       android:
         package: com.lyokone.location
         pluginClass: LocationPlugin
-      ios:
-        pluginClass: LocationPlugin
-      macos:
-        pluginClass: LocationPlugin
-      web:
-        default_package: location_web
 
 dependencies:
   flutter:
