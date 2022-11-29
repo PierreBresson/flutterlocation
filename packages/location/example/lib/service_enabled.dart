@@ -2,70 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 class ServiceEnabledWidget extends StatefulWidget {
-  const ServiceEnabledWidget({super.key});
+  const ServiceEnabledWidget({Key? key}) : super(key: key);
 
   @override
-  State<ServiceEnabledWidget> createState() => _ServiceEnabledWidgetState();
+  _ServiceEnabledState createState() => _ServiceEnabledState();
 }
 
-class _ServiceEnabledWidgetState extends State<ServiceEnabledWidget> {
+class _ServiceEnabledState extends State<ServiceEnabledWidget> {
+  final Location location = Location();
+
   bool? _serviceEnabled;
 
-  bool? _networkEnabled;
-
   Future<void> _checkService() async {
-    final serviceEnabledResult = await isGPSEnabled();
+    final bool serviceEnabledResult = await location.serviceEnabled();
     setState(() {
       _serviceEnabled = serviceEnabledResult;
     });
   }
 
-  Future<void> _checkNetworkService() async {
-    final serviceEnabledResult = await isNetworkEnabled();
+  Future<void> _requestService() async {
+    if (_serviceEnabled == true) {
+      return;
+    }
+    final bool serviceRequestedResult = await location.requestService();
     setState(() {
-      _networkEnabled = serviceEnabledResult;
+      _serviceEnabled = serviceRequestedResult;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'GPS enabled: ${_serviceEnabled ?? "unknown"}',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 42),
-                child: ElevatedButton(
-                  onPressed: _checkService,
-                  child: const Text('Check'),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('Service enabled: ${_serviceEnabled ?? "unknown"}',
+            style: Theme.of(context).textTheme.bodyText1),
+        Row(
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(right: 42),
+              child: ElevatedButton(
+                child: const Text('Check'),
+                onPressed: _checkService,
               ),
-            ],
-          ),
-          Text(
-            'Service enabled: ${_networkEnabled ?? "unknown"}',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 42),
-                child: ElevatedButton(
-                  onPressed: _checkNetworkService,
-                  child: const Text('Check'),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
+            ),
+            ElevatedButton(
+              child: const Text('Request'),
+              onPressed: _serviceEnabled == true ? null : _requestService,
+            )
+          ],
+        )
+      ],
     );
   }
 }

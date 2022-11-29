@@ -2,58 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 
 class PermissionStatusWidget extends StatefulWidget {
-  const PermissionStatusWidget({super.key});
+  const PermissionStatusWidget({Key? key}) : super(key: key);
 
   @override
-  State<PermissionStatusWidget> createState() => _PermissionStatusWidgetState();
+  _PermissionStatusState createState() => _PermissionStatusState();
 }
 
-class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
-  PermissionStatus _permissionGranted = PermissionStatus.notDetermined;
+class _PermissionStatusState extends State<PermissionStatusWidget> {
+  final Location location = Location();
+
+  PermissionStatus? _permissionGranted;
 
   Future<void> _checkPermissions() async {
-    final permissionGrantedResult = await getPermissionStatus();
+    final PermissionStatus permissionGrantedResult =
+        await location.hasPermission();
     setState(() {
       _permissionGranted = permissionGrantedResult;
     });
   }
 
   Future<void> _requestPermission() async {
-    final permissionRequestedResult = await requestPermission();
-    setState(() {
-      _permissionGranted = permissionRequestedResult;
-    });
+    if (_permissionGranted != PermissionStatus.granted) {
+      final PermissionStatus permissionRequestedResult =
+          await location.requestPermission();
+      setState(() {
+        _permissionGranted = permissionRequestedResult;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            'Permission status: $_permissionGranted',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 42),
-                child: ElevatedButton(
-                  onPressed: _checkPermissions,
-                  child: const Text('Check'),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Permission status: ${_permissionGranted ?? "unknown"}',
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        Row(
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(right: 42),
+              child: ElevatedButton(
+                child: const Text('Check'),
+                onPressed: _checkPermissions,
               ),
-              ElevatedButton(
-                onPressed:
-                    _permissionGranted.authorized ? null : _requestPermission,
-                child: const Text('Request'),
-              )
-            ],
-          )
-        ],
-      ),
+            ),
+            ElevatedButton(
+              child: const Text('Request'),
+              onPressed: _permissionGranted == PermissionStatus.granted
+                  ? null
+                  : _requestPermission,
+            )
+          ],
+        )
+      ],
     );
   }
 }

@@ -1,70 +1,34 @@
-## 5.0.0-dev.8
+## 4.4.0
 
- - **FEAT**: improve PermissionStatus.
+ - **FEAT**: support android 12 in example app.
 
-## 5.0.0-dev.7
+## 4.3.0
 
- - **DOCS**: add links.
- - **DOCS**: add next previous.
+ - **FIX**: fix location package test.
+ - **FEAT**: improve coverage.
 
-## 5.0.0-dev.6
+## 4.2.3
 
- - **FEAT**: add the ability to use a mock instance.
+ - **FIX**: fix macos build, fixing #544.
 
-## 5.0.0-dev.5
+## 4.2.2
 
- - **DOCS**: update docs.
+ - **FIX**: fix android crash on Android API 27, #579.
 
-## 5.0.0-dev.4
+## 4.2.1
 
- - **DOCS**: update readme.
- - **DOCS**: update readme.
+ - **FIX**: add compatibility version to target Java 8.
 
-## 5.0.0-dev.3
-
- - **FEAT**: background mode for ios.
- - **FEAT**: background mode for android.
- - **DOCS**: update readme.
-
-## 5.0.0-dev.2
-
- - **FEAT**: ready version macos.
- - **FEAT**: update readme.
-
-## 5.0.0-dev.1
+## 4.2.0
 
  - **REFACTOR**: remove Android strings.
  - **REFACTOR**: extract background notification logic to separate class.
- - **FIX**: fix android crash on Android API 27, #579.
- - **FIX**: fix location package test.
- - **FIX**: add compatibility version to target Java 8.
  - **FIX**: wait 2 location updates to make sure that the last knwown position isn't returned instantly #549.
  - **FIX**: fix the depreciation warning on android #550.
  - **FIX**: improve changeSettings to be applied immediatly.
- - **FEAT**: change settings.
- - **FEAT**: ready with CLocationManager.
- - **FEAT**: initialize the ios package.
- - **FEAT**: readying docs.
- - **FEAT**: dialog with AppCompat.
- - **FEAT**: support for coarse location.
- - **FEAT**: get permission status.
- - **FEAT**: update example app to showcase Android notification options.
- - **FEAT**: implement setLocationSettings.
- - **FEAT**: implement onLocationChanged.
- - **FEAT**: first version 5 commit.
- - **FEAT**: ready for flutter 3.
- - **FEAT**: support android 12 in example app.
- - **FEAT**: improve coverage.
- - **FEAT**: handle notification changes in Android MethodCallHandler.
- - **FEAT**: settings mapping.
- - **FEAT**: add web demo.
- - **FEAT**: allow for customizing Android background notification from dart.
- - **FEAT**: unify into one pigeon file.
- - **FEAT**: remove useless tests thanks to Pigeon.
  - **FEAT**: add several information to resolve #552.
  - **FEAT**: add several information to resolve #552.
- - **FEAT**: activate web.
- - **FEAT**: Update to null safety.
+ - **FEAT**: better listen example to prevent infinite location request.
  - **FEAT**: fix typos.
  - **FEAT**: add ios requirements.
  - **FEAT**: improve example app.
@@ -73,103 +37,46 @@
  - **FEAT**: add fallback for LocationAccuracy.reduced on Android.
  - **FEAT**: add option to reopen app from notification.
  - **FEAT**: allow for customizing Android notification text, subtext and color.
+ - **FEAT**: update example app to showcase Android notification options.
+ - **FEAT**: allow for customizing Android background notification from dart.
+ - **FEAT**: handle notification changes in Android MethodCallHandler.
  - **FEAT**: return notification and channel id when changing options.
- - **FEAT**: better listen example to prevent infinite location request.
- - **DOCS**: add documentation to code.
- - **DOCS**: update documentation.
- - **DOCS**: writing docs for version 5.
- - **DOCS**: writing docs for version 5.
  - **DOCS**: update readme web.
- - **DOCS**: writing docs for version 5.
-
-## 5.0.0-dev.0
-
-- Update all the location packages to version 5
-- Separation of the Android and iOS implementation
-- Using pigeon for the interface with native
-- Support for Google Play Services
-- Support for multiples simultaneous requests
-- Upgrade underlying implementation
-
-## 4.4.0
-
-- **FEAT**: support android 12 in example app.
-- **FIX**: Fix for Flutter 3
-
-## 4.3.0
-
-- **FIX**: fix location package test.
-- **FEAT**: improve coverage.
-
-## 4.2.3
-
-- **FIX**: fix macos build, fixing #544.
-
-## 4.2.2
-
-- **FIX**: fix android crash on Android API 27, #579.
-
-## 4.2.1
-
-- **FIX**: add compatibility version to target Java 8.
-
-## 4.2.0
-
-- **REFACTOR**: remove Android strings.
-- **REFACTOR**: extract background notification logic to separate class.
-- **FIX**: wait 2 location updates to make sure that the last knwown position isn't returned instantly #549.
-- **FIX**: fix the depreciation warning on android #550.
-- **FIX**: improve changeSettings to be applied immediatly.
-- **FEAT**: add several information to resolve #552.
-- **FEAT**: add several information to resolve #552.
-- **FEAT**: better listen example to prevent infinite location request.
-- **FEAT**: fix typos.
-- **FEAT**: add ios requirements.
-- **FEAT**: improve example app.
-- **FEAT**: separate result variables to prevent result override.
-- **FEAT**: add isMock information on LocationData.
-- **FEAT**: add fallback for LocationAccuracy.reduced on Android.
-- **FEAT**: add option to reopen app from notification.
-- **FEAT**: allow for customizing Android notification text, subtext and color.
-- **FEAT**: update example app to showcase Android notification options.
-- **FEAT**: allow for customizing Android background notification from dart.
-- **FEAT**: handle notification changes in Android MethodCallHandler.
-- **FEAT**: return notification and channel id when changing options.
-- **DOCS**: update readme web.
-- **CHORE**: publish packages.
-- **CHORE**: publish packages.
-- **CHORE**: publish packages.
-- **CHORE**: publish packages.
-- **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
 
 ## 4.1.1
 
-- **FIX**: fix crash on build.
+ - **FIX**: fix crash on build.
+
 
 ## 4.1.0
 
-- **REFACTOR**: remove Android strings.
-- **REFACTOR**: extract background notification logic to separate class.
-- **FEAT**: add option to reopen app from notification.
-- **FEAT**: allow for customizing Android notification text, subtext and color.
-- **FEAT**: update example app to showcase Android notification options.
-- **FEAT**: allow for customizing Android background notification from dart.
-- **FEAT**: handle notification changes in Android MethodCallHandler.
-- **FEAT**: return notification and channel id when changing options.
-- **DOCS**: update readme web.
-- **CHORE**: publish packages.
-- **CHORE**: publish packages.
-- **CHORE**: publish packages.
-- **CHORE**: publish packages.
+ - **REFACTOR**: remove Android strings.
+ - **REFACTOR**: extract background notification logic to separate class.
+ - **FEAT**: add option to reopen app from notification.
+ - **FEAT**: allow for customizing Android notification text, subtext and color.
+ - **FEAT**: update example app to showcase Android notification options.
+ - **FEAT**: allow for customizing Android background notification from dart.
+ - **FEAT**: handle notification changes in Android MethodCallHandler.
+ - **FEAT**: return notification and channel id when changing options.
+ - **DOCS**: update readme web.
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
+ - **CHORE**: publish packages.
 
 ## 4.0.2
 
-- Bump "location" to `4.0.2`.
+ - Bump "location" to `4.0.2`.
 
 ## 4.0.1
 
-- **DOCS**: update readme web.
-- **CHORE**: publish packages.
+ - **DOCS**: update readme web.
+ - **CHORE**: publish packages.
 
 ## 4.0.0
 

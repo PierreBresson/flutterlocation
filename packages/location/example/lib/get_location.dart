@@ -3,13 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 
 class GetLocationWidget extends StatefulWidget {
-  const GetLocationWidget({super.key});
+  const GetLocationWidget({Key? key}) : super(key: key);
 
   @override
-  State<GetLocationWidget> createState() => _GetLocationWidgetState();
+  _GetLocationState createState() => _GetLocationState();
 }
 
-class _GetLocationWidgetState extends State<GetLocationWidget> {
+class _GetLocationState extends State<GetLocationWidget> {
+  final Location location = Location();
+
   bool _loading = false;
 
   LocationData? _location;
@@ -21,10 +23,7 @@ class _GetLocationWidgetState extends State<GetLocationWidget> {
       _loading = true;
     });
     try {
-      final _locationResult = await getLocation(
-        settings: LocationSettings(ignoreLastKnownPosition: true),
-      );
-
+      final LocationData _locationResult = await location.getLocation();
       setState(() {
         _location = _locationResult;
         _loading = false;
@@ -39,30 +38,26 @@ class _GetLocationWidgetState extends State<GetLocationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            _error ??
-                'Location: ${_location?.latitude}, ${_location?.longitude}',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Row(
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: _getLocation,
-                child: _loading
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                      )
-                    : const Text('Get'),
-              )
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Location: ' + (_error ?? '${_location ?? "unknown"}'),
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        Row(
+          children: <Widget>[
+            ElevatedButton(
+              child: _loading
+                  ? const CircularProgressIndicator(
+                      color: Colors.white,
+                    )
+                  : const Text('Get'),
+              onPressed: _getLocation,
+            )
+          ],
+        ),
+      ],
     );
   }
 }

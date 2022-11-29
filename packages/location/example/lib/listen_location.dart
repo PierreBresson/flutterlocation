@@ -5,22 +5,22 @@ import 'package:flutter/services.dart';
 import 'package:location/location.dart';
 
 class ListenLocationWidget extends StatefulWidget {
-  const ListenLocationWidget({super.key});
+  const ListenLocationWidget({Key? key}) : super(key: key);
 
   @override
-  State<ListenLocationWidget> createState() => _ListenLocationWidgetState();
+  _ListenLocationState createState() => _ListenLocationState();
 }
 
-class _ListenLocationWidgetState extends State<ListenLocationWidget> {
+class _ListenLocationState extends State<ListenLocationWidget> {
+  final Location location = Location();
+
   LocationData? _location;
   StreamSubscription<LocationData>? _locationSubscription;
   String? _error;
 
-  bool _inBackground = false;
-
   Future<void> _listenLocation() async {
-    _locationSubscription = onLocationChanged(inBackground: _inBackground)
-        .handleError((dynamic err) {
+    _locationSubscription =
+        location.onLocationChanged.handleError((dynamic err) {
       if (err is PlatformException) {
         setState(() {
           _error = err.code;
@@ -30,23 +30,18 @@ class _ListenLocationWidgetState extends State<ListenLocationWidget> {
       setState(() {
         _locationSubscription = null;
       });
-    }).listen((LocationData currentLocation) async {
+    }).listen((LocationData currentLocation) {
       setState(() {
         _error = null;
 
         _location = currentLocation;
       });
-      await updateBackgroundNotification(
-        subtitle:
-            'Location: ${currentLocation.latitude}, ${currentLocation.longitude}',
-        onTapBringToFront: true,
-      );
     });
     setState(() {});
   }
 
   Future<void> _stopListen() async {
-    await _locationSubscription?.cancel();
+    _locationSubscription?.cancel();
     setState(() {
       _locationSubscription = null;
     });
@@ -63,45 +58,30 @@ class _ListenLocationWidgetState extends State<ListenLocationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            _error ??
-                '''
-Listen location: ${_location?.latitude}, ${_location?.longitude}
-                ''',
-            style: Theme.of(context).textTheme.bodyText1,
-          ),
-          Row(
-            children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(right: 42),
-                child: ElevatedButton(
-                  onPressed:
-                      _locationSubscription == null ? _listenLocation : null,
-                  child: const Text('Listen'),
-                ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Listen location: ' + (_error ?? '${_location ?? "unknown"}'),
+          style: Theme.of(context).textTheme.bodyText1,
+        ),
+        Row(
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(right: 42),
+              child: ElevatedButton(
+                child: const Text('Listen'),
+                onPressed:
+                    _locationSubscription == null ? _listenLocation : null,
               ),
-              ElevatedButton(
-                onPressed: _locationSubscription != null ? _stopListen : null,
-                child: const Text('Stop'),
-              )
-            ],
-          ),
-          SwitchListTile(
-            value: _inBackground,
-            title: const Text('Get location in background'),
-            onChanged: (value) {
-              setState(() {
-                _inBackground = value;
-              });
-            },
-          ),
-        ],
-      ),
+            ),
+            ElevatedButton(
+              child: const Text('Stop'),
+              onPressed: _locationSubscription != null ? _stopListen : null,
+            )
+          ],
+        ),
+      ],
     );
   }
 }
